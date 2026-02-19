@@ -20,26 +20,25 @@ export default function Register() {
         body: JSON.stringify(form),
       });
       const data = await res.json();
-      if (res.ok) { navigate("/login"); }
-      else { setError(data.error || "Registration failed."); }
-    } catch {
-      setError("Cannot reach server. Please try again later.");
-    } finally {
-      setLoading(false);
-    }
+      if (res.ok) navigate("/login");
+      else setError(data.error || "Registration failed.");
+    } catch { setError("Cannot reach server. Is the backend running?"); }
+    finally { setLoading(false); }
   };
 
   return (
     <AuthLayout title="Create account" subtitle="Start your AI-powered interview prep">
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <FormField label="Full Name">
-          <input className="input" placeholder="Your name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
+          <input className="input" placeholder="Your name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
         </FormField>
         <FormField label="Email">
-          <input className="input" type="email" placeholder="you@example.com" value={form.email} onChange={e => setForm({...form, email: e.target.value})} />
+          <input className="input" type="email" placeholder="you@example.com" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />
         </FormField>
         <FormField label="Password">
-          <input className="input" type="password" placeholder="Min. 6 characters" value={form.password} onChange={e => setForm({...form, password: e.target.value})} onKeyDown={e => e.key === "Enter" && register()} />
+          <input className="input" type="password" placeholder="Min. 6 characters" value={form.password}
+            onChange={e => setForm({ ...form, password: e.target.value })}
+            onKeyDown={e => e.key === "Enter" && register()} />
         </FormField>
         {error && <ErrorMsg msg={error} />}
         <button className="btn btn-primary" onClick={register} disabled={loading}

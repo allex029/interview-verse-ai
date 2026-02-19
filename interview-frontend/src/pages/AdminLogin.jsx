@@ -19,30 +19,25 @@ export default function AdminLogin() {
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
-      if (data.token) {
-        localStorage.setItem("token", data.token);
-        navigate("/admin");
-      } else {
-        setError("Unauthorized. Admin credentials required.");
-      }
-    } catch {
-      setError("Cannot reach server. Please try again later.");
-    } finally {
-      setLoading(false);
-    }
+      if (data.token) { localStorage.setItem("token", data.token); navigate("/admin"); }
+      else setError("Unauthorized. Admin credentials required.");
+    } catch { setError("Cannot reach server. Is the backend running?"); }
+    finally { setLoading(false); }
   };
 
   return (
     <AuthLayout title="Admin Portal" subtitle="Restricted access — authorized personnel only">
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        <div style={{ padding: "10px 14px", borderRadius: 8, marginBottom: 4, background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.2)", color: "var(--warning)", fontSize: "0.8rem" }}>
+        <div style={{ padding: "10px 14px", borderRadius: 8, background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.2)", color: "var(--warning)", fontSize: "0.8rem" }}>
           🔒 Admin authentication required
         </div>
         <FormField label="Admin Email">
           <input className="input" type="email" placeholder="admin@company.com" value={email} onChange={e => setEmail(e.target.value)} />
         </FormField>
         <FormField label="Password">
-          <input className="input" type="password" placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === "Enter" && login()} />
+          <input className="input" type="password" placeholder="••••••••" value={password}
+            onChange={e => setPassword(e.target.value)}
+            onKeyDown={e => e.key === "Enter" && login()} />
         </FormField>
         {error && <ErrorMsg msg={error} />}
         <button className="btn btn-primary" onClick={login} disabled={loading}

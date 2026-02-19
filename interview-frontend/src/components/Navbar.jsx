@@ -58,7 +58,7 @@ export default function Navbar() {
           boxShadow: "0 0 16px rgba(79,156,249,0.4)",
         }}>AI</div>
         <span style={{ fontWeight: 700, fontSize: "1rem", color: "#e8edf5", letterSpacing: "-0.01em" }}>
-          InterviewVerseAI
+          InterviewAI
         </span>
       </Link>
 

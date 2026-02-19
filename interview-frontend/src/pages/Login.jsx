@@ -19,17 +19,10 @@ export default function Login() {
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
-      if (data.token) {
-        localStorage.setItem("token", data.token);
-        navigate("/");
-      } else {
-        setError(data.error || "Invalid credentials. Please try again.");
-      }
-    } catch {
-      setError("Cannot reach server. Please try again later.");
-    } finally {
-      setLoading(false);
-    }
+      if (data.token) { localStorage.setItem("token", data.token); navigate("/"); }
+      else setError(data.error || "Invalid credentials.");
+    } catch { setError("Cannot reach server. Is the backend running?"); }
+    finally { setLoading(false); }
   };
 
   return (
@@ -75,16 +68,9 @@ export function AuthLayout({ title, subtitle, children }) {
 }
 
 export function FormField({ label, children }) {
-  return (
-    <div>
-      <label className="label">{label}</label>
-      {children}
-    </div>
-  );
+  return <div><label className="label">{label}</label>{children}</div>;
 }
 
 export function ErrorMsg({ msg }) {
-  return (
-    <div style={{ padding: "10px 14px", borderRadius: 8, background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)", color: "var(--danger)", fontSize: "0.8rem" }}>{msg}</div>
-  );
+  return <div style={{ padding: "10px 14px", borderRadius: 8, background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)", color: "var(--danger)", fontSize: "0.8rem" }}>{msg}</div>;
 }
